@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http"
+      xmlns="http://www.mulesoft.org/schema/mule/core"
+      xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="
+        http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+        http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
+
+    <!-- HTTP Listener Config (REQUIRED) -->
+    <http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener Config">
+        <http:listener-connection host="0.0.0.0" port="8081"/>
+    </http:listener-config>
+
+    <!-- Your API Flow -->
+    <flow name="dummy-apiFlow">
+        <http:listener doc:name="Listener" config-ref="HTTP_Listener_config" path="/hello"/>
+        <logger level="INFO" message="Hello from the dummy API!" />
+        <set-payload value="Dummy API is working!" />
+    </flow>
+
+</mule>
