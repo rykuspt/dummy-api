@@ -118,5 +118,28 @@
 			</snapshots>
 		</pluginRepository>
 	</pluginRepositories>
+	<!-- REQUIRED FOR CH2: Deployment to Anypoint Exchange -->
+	<distributionManagement>
+		<repository>
+			<id>exchange-repo</id>
+			<!-- Replace ORG-ID below -->
+			<url>https://maven.anypoint.mulesoft.com/api/v1/organizations/1a3af3d7-fc5b-496a-93e0-d7cae29e8600/maven</url>
+		</repository>
+	</distributionManagement>
 
+	<profiles>
+		<profile>
+			<id>exchange-deployment</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.mule.tools.maven</groupId>
+						<artifactId>exchange-mule-maven-plugin</artifactId>
+						<version>0.0.23</version>
+						<extensions>true</extensions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 </project>
