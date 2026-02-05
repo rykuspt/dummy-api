@@ -40,7 +40,7 @@
                 <version>3.2.0</version>
             </plugin>
 
-            <!-- Mule Maven Plugin (UPDATED) -->
+            <!-- Mule Maven Plugin -->
             <plugin>
                 <groupId>org.mule.tools.maven</groupId>
                 <artifactId>mule-maven-plugin</artifactId>
@@ -48,17 +48,16 @@
                 <extensions>true</extensions>
 
                 <configuration>
-                    <!-- Required for mule:deploy -->
                     <cloudHubDeployment>
                         <applicationName>${application.name}</applicationName>
                         <environment>${mule.env}</environment>
-                        <runtimeVersion>${mule.runtime}</runtimeVersion>
+
                         <workers>${mule.workers}</workers>
                         <workerType>${mule.workerType}</workerType>
                         <region>${mule.region}</region>
                         <businessGroupId>${mule.businessGroupId}</businessGroupId>
 
-                        <!-- Connected App auth (passed by Jenkins) -->
+                        <!-- Connected App auth -->
                         <connectedAppClientId>${connected_app_client_id}</connectedAppClientId>
                         <connectedAppClientSecret>${connected_app_client_secret}</connectedAppClientSecret>
 
@@ -97,6 +96,8 @@
         </plugins>
     </build>
 
+    <!-- EVERYTHING ELSE UNCHANGED -->
+
     <dependencies>
         <dependency>
             <groupId>org.mule.connectors</groupId>
@@ -132,41 +133,7 @@
         </dependency>
     </dependencies>
 
-    <repositories>
-        <repository>
-            <id>anypoint-exchange-v3</id>
-            <name>Anypoint Exchange</name>
-            <url>https://maven.eu1.anypoint.mulesoft.com/api/v3/maven</url>
-        </repository>
-        <repository>
-            <id>mulesoft-releases</id>
-            <name>MuleSoft Releases Repository</name>
-            <url>https://repository.mulesoft.org/releases/</url>
-        </repository>
-    </repositories>
-
-    <pluginRepositories>
-        <pluginRepository>
-            <id>mulesoft-releases</id>
-            <name>MuleSoft Releases Repository</name>
-            <url>https://repository.mulesoft.org/releases/</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </pluginRepository>
-    </pluginRepositories>
-
-    <!-- Exchange deployment -->
-    <distributionManagement>
-        <repository>
-            <id>exchange-repo</id>
-            <url>https://maven.anypoint.mulesoft.com/api/v1/organizations/1a3af3d7-fc5b-496a-93e0-d7cae29e8600/maven</url>
-        </repository>
-    </distributionManagement>
-
     <profiles>
-
-        <!-- Exchange publish -->
         <profile>
             <id>exchange-deployment</id>
             <build>
@@ -180,7 +147,6 @@
                 </plugins>
             </build>
         </profile>
-
     </profiles>
 
 </project>
