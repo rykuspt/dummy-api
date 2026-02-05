@@ -7,7 +7,7 @@
 
     <groupId>1a3af3d7-fc5b-496a-93e0-d7cae29e8600</groupId>
     <artifactId>dummy-api</artifactId>
-    <version>1.0.18</version>
+    <version>1.0.16</version>
     <packaging>mule-application</packaging>
 
     <name>dummy-api</name>
@@ -15,6 +15,8 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+        <!-- Mule / Runtime -->
         <app.runtime>4.9.9</app.runtime>
         <mule.runtime>4.9.9</mule.runtime>
         <mule.maven.plugin.version>4.3.0</mule.maven.plugin.version>
@@ -55,9 +57,9 @@
                         <region>${mule.region}</region>
                         <businessGroupId>${mule.businessGroupId}</businessGroupId>
 
-                        <!-- Connected App authentication (CH2 compatible) -->
-                        <anypointConnectedAppClientId>${connected_app_client_id}</anypointConnectedAppClientId>
-                        <anypointConnectedAppClientSecret>${connected_app_client_secret}</anypointConnectedAppClientSecret>
+                        <!-- Connected App authentication -->
+                        <connectedAppClientId>${connected_app_client_id}</connectedAppClientId>
+                        <connectedAppClientSecret>${connected_app_client_secret}</connectedAppClientSecret>
 
                         <properties>
                             <env>${mule.env}</env>
@@ -84,7 +86,14 @@
                 <configuration>
                     <coverage>
                         <runCoverage>true</runCoverage>
-                               </plugins>
+                        <formats>
+                            <format>html</format>
+                        </formats>
+                    </coverage>
+                </configuration>
+            </plugin>
+
+        </plugins>
     </build>
 
     <dependencies>
