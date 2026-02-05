@@ -7,7 +7,7 @@
 
     <groupId>1a3af3d7-fc5b-496a-93e0-d7cae29e8600</groupId>
     <artifactId>dummy-api</artifactId>
-    <version>1.0.25</version>
+    <version>1.0.26</version>
     <packaging>mule-application</packaging>
 
     <name>dummy-api</name>
@@ -38,34 +38,6 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-clean-plugin</artifactId>
                 <version>3.2.0</version>
-            </plugin>
-
-            <!-- Mule Maven Plugin -->
-            <plugin>
-                <groupId>org.mule.tools.maven</groupId>
-                <artifactId>mule-maven-plugin</artifactId>
-                <version>${mule.maven.plugin.version}</version>
-                <extensions>true</extensions>
-
-                <configuration>
-                    <cloudHubDeployment>
-                        <applicationName>${application.name}</applicationName>
-                        <environment>${mule.env}</environment>
-
-                        <workers>${mule.workers}</workers>
-                        <workerType>${mule.workerType}</workerType>
-                        <region>${mule.region}</region>
-                        <businessGroupId>${mule.businessGroupId}</businessGroupId>
-
-                        <!-- Connected App authentication -->
-                        <connectedAppClientId>${connected_app_client_id}</connectedAppClientId>
-                        <connectedAppClientSecret>${connected_app_client_secret}</connectedAppClientSecret>
-
-                        <properties>
-                            <env>${mule.env}</env>
-                        </properties>
-                    </cloudHubDeployment>
-                </configuration>
             </plugin>
 
             <!-- MUnit -->
