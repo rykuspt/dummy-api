@@ -7,7 +7,7 @@
 
     <groupId>1a3af3d7-fc5b-496a-93e0-d7cae29e8600</groupId>
     <artifactId>dummy-api</artifactId>
-    <version>1.0.24</version>
+    <version>1.0.25</version>
     <packaging>mule-application</packaging>
 
     <name>dummy-api</name>
@@ -171,20 +171,81 @@
     </distributionManagement>
 
     <profiles>
-
-        <!-- Exchange publish -->
-        <profile>
-            <id>exchange-deployment</id>
+         <profile>
+            <!-- Add this profile, when deploying to CloudHub 2.0 -->
+            <id>cloudhub2-deployment</id>
+            <activation>
+                <property>
+                    <name>deployment</name>
+                    <value>cloudhub2</value>
+                </property>
+            </activation>
             <build>
                 <plugins>
                     <plugin>
                         <groupId>org.mule.tools.maven</groupId>
-                        <artifactId>exchange-mule-maven-plugin</artifactId>
-                        <version>0.0.23</version>
-                        <extensions>true</extensions>
+                        <artifactId>mule-maven-plugin</artifactId>
+                        <version>${mule.maven.plugin.version}</version>
+                        <configuration>
+                            <cloudhub2Deployment>
+                                <uri>https://eu1.anypoint.mulesoft.com</uri>
+                                <provider>MC</provider>
+                                <target>${cloudhub2Target}</target>
+                                <muleVersion>${mule.runtime}</muleVersion>
+                                <applicationName>${applicationPrefix}${project.artifactId}-${api.version}</applicationName>
+                                <environment>${environment}</environment>
+                                <replicas>${mule.workers}</replicas>
+                                <vCores>${mule.vCores}</vCores>
+                                <businessGroup>${mule.businessGroup}</businessGroup>
+                                <businessGroupId>${mule.businessGroupId}</businessGroupId>
+                                <!-- specify deployment settings including public url (optional) -->
+                                <deploymentSettings>
+                                    <http>
+                                        <inbound>
+                                            <publicUrl>${publicUrl}</publicUrl>
+                                            <!-- <forwardSslSession>true</forwardSslSession> -->
+                                            <lastMileSecurity>true</lastMileSecurity>
+                                        </inbound>
+                                    </http>
+                                </deploymentSettings>
+                                <properties>
+                                    <anypoint.platform.analytics_base_uri>https://analytics-ingest.eu1.anypoint.mulesoft.com</anypoint.platform.analytics_base_uri>
+                                    <anypoint.platform.config.analytics.agent.enabled>true</anypoint.platform.config.analytics.agent.enabled>
+                                    <mule.env>${mule.env}</mule.env>
+                                    <secure.key>${secure.key}</secure.key>
+                                    <!-- set anypoint platform parameters (optional) -->
+                                    <anypoint.platform.client_id>${anypoint.platform.client_id}</anypoint.platform.client_id>
+                                    <anypoint.platform.client_secret>${anypoint.platform.client_secret}</anypoint.platform.client_secret>
+                                    <anypoint.platform.base_uri>https://eu1.anypoint.mulesoft.com</anypoint.platform.base_uri>
+                                </properties>
+                                <connectedAppClientId>${connected_app_client_id}</connectedAppClientId>
+                                <connectedAppClientSecret>${connected_app_client_secret}</connectedAppClientSecret>
+                                <connectedAppGrantType>client_credentials</connectedAppGrantType>
+                            </cloudhub2Deployment>
+                        </configuration>
                     </plugin>
                 </plugins>
             </build>
+         </profile>
+         
+
+         <profile>
+            <!-- Add this profile with distributionManagement for publishing to exchange -->
+            <id>exchange-deployment</id>
+            <distributionManagement>
+                <repository>
+                    <id>anypoint-exchange-v3</id>
+                    <name>Anypoint Exchange V3</name>
+                    <url> https://maven.eu1.anypoint.mulesoft.com/api/v3/organizations/${project.groupId}/maven</url>
+                    <layout>default</layout>
+                </repository>
+                <snapshotRepository>
+                    <id>anypoint-exchange-v3</id>
+                    <name>Anypoint Exchange V3</name>
+                    <url> https://maven.eu1.anypoint.mulesoft.com/api/v3/organizations/${project.groupId}/maven</url>
+                    <layout>default</layout>
+                </snapshotRepository>
+            </distributionManagement>
         </profile>
 
     </profiles>
