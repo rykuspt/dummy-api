@@ -7,7 +7,7 @@
 
     <groupId>1a3af3d7-fc5b-496a-93e0-d7cae29e8600</groupId>
     <artifactId>dummy-api</artifactId>
-    <version>1.0.9</version>
+    <version>1.0.10</version>
     <packaging>mule-application</packaging>
 
     <name>dummy-api</name>
@@ -33,19 +33,43 @@
 
     <build>
         <plugins>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-clean-plugin</artifactId>
                 <version>3.2.0</version>
             </plugin>
 
+            <!-- Mule Maven Plugin (UPDATED) -->
             <plugin>
                 <groupId>org.mule.tools.maven</groupId>
                 <artifactId>mule-maven-plugin</artifactId>
                 <version>${mule.maven.plugin.version}</version>
                 <extensions>true</extensions>
+
+                <configuration>
+                    <!-- Required for mule:deploy -->
+                    <cloudHubDeployment>
+                        <applicationName>${application.name}</applicationName>
+                        <environment>${mule.env}</environment>
+                        <runtimeVersion>${mule.runtime}</runtimeVersion>
+                        <workers>${mule.workers}</workers>
+                        <workerType>${mule.workerType}</workerType>
+                        <region>${mule.region}</region>
+                        <businessGroupId>${mule.businessGroupId}</businessGroupId>
+
+                        <!-- Connected App auth (passed by Jenkins) -->
+                        <connectedAppClientId>${connected_app_client_id}</connectedAppClientId>
+                        <connectedAppClientSecret>${connected_app_client_secret}</connectedAppClientSecret>
+
+                        <properties>
+                            <env>${mule.env}</env>
+                        </properties>
+                    </cloudHubDeployment>
+                </configuration>
             </plugin>
 
+            <!-- MUnit -->
             <plugin>
                 <groupId>com.mulesoft.munit.tools</groupId>
                 <artifactId>munit-maven-plugin</artifactId>
@@ -69,6 +93,7 @@
                     </coverage>
                 </configuration>
             </plugin>
+
         </plugins>
     </build>
 
@@ -112,13 +137,11 @@
             <id>anypoint-exchange-v3</id>
             <name>Anypoint Exchange</name>
             <url>https://maven.eu1.anypoint.mulesoft.com/api/v3/maven</url>
-            <layout>default</layout>
         </repository>
         <repository>
             <id>mulesoft-releases</id>
             <name>MuleSoft Releases Repository</name>
             <url>https://repository.mulesoft.org/releases/</url>
-            <layout>default</layout>
         </repository>
     </repositories>
 
@@ -126,7 +149,6 @@
         <pluginRepository>
             <id>mulesoft-releases</id>
             <name>MuleSoft Releases Repository</name>
-            <layout>default</layout>
             <url>https://repository.mulesoft.org/releases/</url>
             <snapshots>
                 <enabled>false</enabled>
@@ -154,44 +176,6 @@
                         <artifactId>exchange-mule-maven-plugin</artifactId>
                         <version>0.0.23</version>
                         <extensions>true</extensions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-
-        <!-- CloudHub 1.0 deployment -->
-        <profile>
-            <id>cloudhub-deployment</id>
-
-            <activation>
-                <property>
-                    <name>deployment</name>
-                    <value>cloudhub</value>
-                </property>
-            </activation>
-
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.mule.tools.maven</groupId>
-                        <artifactId>mule-maven-plugin</artifactId>
-                        <version>${mule.maven.plugin.version}</version>
-                        <configuration>
-                            <deployment>
-                                <cloudHub>
-                                    <applicationName>${application.name}</applicationName>
-                                    <environment>${mule.env}</environment>
-                                    <runtimeVersion>${mule.runtime}</runtimeVersion>
-                                    <workers>${mule.workers}</workers>
-                                    <workerType>${mule.workerType}</workerType>
-                                    <region>${mule.region}</region>
-                                    <businessGroupId>${mule.businessGroupId}</businessGroupId>
-                                    <properties>
-                                        <env>${mule.env}</env>
-                                    </properties>
-                                </cloudHub>
-                            </deployment>
-                        </configuration>
                     </plugin>
                 </plugins>
             </build>
