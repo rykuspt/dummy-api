@@ -7,7 +7,7 @@
 
     <groupId>1a3af3d7-fc5b-496a-93e0-d7cae29e8600</groupId>
     <artifactId>dummy-api</artifactId>
-    <version>1.0.17</version>
+    <version>1.0.18</version>
     <packaging>mule-application</packaging>
 
     <name>dummy-api</name>
@@ -15,10 +15,10 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-
-        <!-- Mule / Runtime -->
         <app.runtime>4.9.9</app.runtime>
-       it.version>
+        <mule.runtime>4.9.9</mule.runtime>
+        <mule.maven.plugin.version>4.3.0</mule.maven.plugin.version>
+        <munit.version>3.4.0</munit.version>
 
         <!-- CloudHub defaults (overridden by Jenkins -D) -->
         <mule.env>SANDBOX</mule.env>
@@ -55,10 +55,9 @@
                         <region>${mule.region}</region>
                         <businessGroupId>${mule.businessGroupId}</businessGroupId>
 
-                        <!-- CloudHub 2.0 Connected App authentication -->
-                        <anypointConnectedAppClientId>${anypointConnectedAppClientId}</anypointConnectedAppClientId>
-                        <anypointConnectedAppClientSecret>${anypointConnectedAppClientSecret}</anypointConnectedAppClientSecret>
-                        <muleEnterprise>true</muleEnterprise>
+                        <!-- Connected App authentication (CH2 compatible) -->
+                        <anypointConnectedAppClientId>${connected_app_client_id}</anypointConnectedAppClientId>
+                        <anypointConnectedAppClientSecret>${connected_app_client_secret}</anypointConnectedAppClientSecret>
 
                         <properties>
                             <env>${mule.env}</env>
@@ -75,7 +74,22 @@
                 <executions>
                     <execution>
                         <id>test</id>
-                       ule.connectors</groupId>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>test</goal>
+                            <goal>coverage-report</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <coverage>
+                        <runCoverage>true</runCoverage>
+                               </plugins>
+    </build>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.mule.connectors</groupId>
             <artifactId>mule-http-connector</artifactId>
             <version>1.10.5</version>
             <classifier>mule-plugin</classifier>
@@ -141,7 +155,9 @@
     <distributionManagement>
         <repository>
             <id>exchange-repo</id>
-            <url>https://maven.anypoint.mulesoft.com/api/v1/organizations/1a3af3d7-fc5b-496a-93e0-d7cae29e8600/maven</url>
+            <url>
+                https://maven.anypoint.mulesoft.com/api/v1/organizations/1a3af3d7-fc5b-496a-93e0-d7cae29e8600/maven
+            </url>
         </repository>
     </distributionManagement>
 
