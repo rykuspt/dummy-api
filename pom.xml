@@ -7,7 +7,7 @@
 
     <groupId>1a3af3d7-fc5b-496a-93e0-d7cae29e8600</groupId>
     <artifactId>dummy-api</artifactId>
-    <version>1.0.18</version>
+    <version>1.0.19</version>
     <packaging>mule-application</packaging>
 
     <name>dummy-api</name>
